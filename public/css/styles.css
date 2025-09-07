@@ -141,14 +141,16 @@ body {
   display: block;
   text-align: center;
   margin: 0 auto;
+  color: black;
 }
+
+
 
 
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
     margin: auto;
-    background-color: pink;
     background-image: url('/images/site/checkerboard.jpg');
   }
 
