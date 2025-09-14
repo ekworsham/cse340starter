@@ -24,7 +24,7 @@ SET inv_description = REPLACE (
         inv_description,
         'the small interiors',
         'a huge interior'
-    )
+    );
 
 SELECT inventory.inv_make,
     inventory.inv_model,
@@ -33,9 +33,9 @@ FROM inventory
 INNER JOIN classification ON inventory.classification_id = classification.classification_id
 WHERE classification.classification_name = 'Sport';
 
+UPDATE inventory
 WHERE inv_make = 'GM'
     AND inv_model = 'Hummer'
-UPDATE inventory
 SET inv_image = REPLACE (inv_image, 'images/', 'images/vehicles/'),
     inv_thumbnail = REPLACE (
         inv_thumbnail,
