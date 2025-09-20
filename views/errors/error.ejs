@@ -1,14 +1,10 @@
 <!-- ***************This is HTML********************
  ************This is the "Content Heading"************-->
 <% if (title) { %>
-<h1><%= title %></h1>
-<% } else {
-  res.redirect('/')
-} %>
-
+<h1><%= title %></h1><% }%>
 
 <!-- ***************This is ejs******************** -->
 
 <%# messages() %>
 
-<%- grid %>
+<%- message %>
