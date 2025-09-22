@@ -35,24 +35,21 @@ Util.buildClassificationGrid = async function(data){
       grid += '<li>'
       grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-      + 'details"><img src="' + vehicle.inv_thumbnail 
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+      + ' details"><img src="' + vehicle.inv_image
+      +'" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model 
       +' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
       grid += '<hr />'
       grid += '<h2>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
+      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
       grid += '</h2>'
-      grid += '<span>$' 
-      + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      grid += '<span>$' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '</div>'
       grid += '</li>'
     })
     grid += '</ul>'
   } else { 
-    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
 }
@@ -65,5 +62,32 @@ Util.buildClassificationGrid = async function(data){
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
+
+/* **************************************
+* THIS IS STEP # 4, I added this!
+Build the vehicle detail HTML
+* ************************************ */
+Util.buildDetailView = function(vehicle) {
+  if (!vehicle) {
+    return '<p class="notice">Vehicle details not found.</p>';
+  }
+  let imagePath = vehicle.inv_image.replace(`/images/`, `/images/vehicles/`)
+  let html = `
+    <div class="vehicle-detail">
+      <img src="${imagePath}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+      <h2>${vehicle.inv_make} ${vehicle.inv_model}</h2>
+      <ul>
+        <li><strong>Make:</strong> ${vehicle.inv_make}</li>
+        <li><strong>Model:</strong> ${vehicle.inv_model}</li>
+        <li><strong>Year:</strong> ${vehicle.inv_year}</li>
+        <li><strong>Price:</strong> $${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</li>
+        <li><strong>Description:</strong> ${vehicle.inv_description}</li>
+        <li><strong>Mileage:</strong> ${new Intl.NumberFormat('en-US').format(vehicle.inv_miles)}</li>
+        <li><strong>Color:</strong> ${vehicle.inv_color}</li>
+      </ul>
+    </div>
+  `;
+  return html;
+};
 
 module.exports = Util 

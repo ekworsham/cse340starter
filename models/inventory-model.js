@@ -25,4 +25,17 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId};
+/* ***************************
+ *  THIS IS STEP # 3 and I added getInventoryById to my modeul.exports
+
+Get inventory item by ID
+ * ************************** */
+async function getInventoryById(invId) {
+  const data = await pool.query(
+    "SELECT * FROM public.inventory WHERE inv_id = $1",
+    [invId]
+  )
+  return data.rows[0]
+}
+
+module.exports = { getClassifications, getInventoryByClassificationId, getInventoryById};
