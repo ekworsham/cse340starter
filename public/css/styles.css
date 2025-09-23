@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
 
 body {
   font-family: "Tilt Neon", sans-serif;
@@ -32,12 +37,16 @@ body {
 }
 
 #nav ul {
-  background-color: black;
-  color: white;
+  background-color: rgb(25, 173, 223);
   list-style: none;
   display: flex;
   justify-content: space-between;
   padding: 10px;
+}
+
+#nav li a {
+  color: black;
+  font-size: .75rem;
 }
 
 #welcome {

@@ -7,7 +7,7 @@ const Util = {}
 Util.getNav = async function (req, res, next) {
     let data = await invModel.getClassifications()
     let list = "<ul>"
-    list += '<il><a href="/" title="Home Page">Home</a></il>'
+    list += '<li><a href="/" title="Home Page">Home</a></li>'
     data.rows.forEach((row) => {
         list += "<li>"
         list +=
@@ -17,10 +17,10 @@ Util.getNav = async function (req, res, next) {
             row.classification_name +
             ' vehicles">' +
             row.classification_name +
-            "<a>"
-        list += "<li>"
+            "</a>"
+        list += "</li>"
     })
-    list += "<ul>"
+    list += "</ul>"
     return list
 }
 
@@ -71,10 +71,9 @@ Util.buildDetailView = function(vehicle) {
   if (!vehicle) {
     return '<p class="notice">Vehicle details not found.</p>';
   }
-  let imagePath = vehicle.inv_image.replace(`/images/`, `/images/vehicles/`)
   let html = `
     <div class="vehicle-detail">
-      <img src="${imagePath}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+      <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
       <h2>${vehicle.inv_make} ${vehicle.inv_model}</h2>
       <ul>
         <li><strong>Make:</strong> ${vehicle.inv_make}</li>
