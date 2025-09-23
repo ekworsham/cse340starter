@@ -163,6 +163,10 @@ body {
     background-image: url('/images/site/checkerboard.jpg');
   }
 
+  #inv-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
   #wrapper {
     background-color: white;
     border: 6px solid rgb(25, 173, 223);
