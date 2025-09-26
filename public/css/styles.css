@@ -153,7 +153,39 @@ body {
   color: black;
 }
 
+/* My Account page */
+  #loginForm {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    background-color: rgb(3, 96, 126);
+    padding: 1rem 1rem 1rem 1rem;
+    border: darkgray solid 3px;
+    border-radius: .5rem;
+    box-shadow: 0 0 20px 8px  rgb(25, 173, 223)
+  }
 
+  #button {
+    background-color: white;
+    color: darkgray;
+    margin-top: 1rem;
+    border-radius: 1rem;
+  }
+  #email {
+    color: white;
+  }
+
+  #acct_pass {
+    color: white;
+  }
+
+  #sign {
+    color: white;
+    margin-top: 1rem;
+  }
+
+  #sign a {
+    color: white;
+  }
 
 
 @media screen and (min-width: 500px) {
@@ -252,4 +284,8 @@ body {
   footer {
     margin-left: 1rem;
   }
+
+  
+
+
 }
