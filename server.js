@@ -62,6 +62,9 @@ app.use("/inv", utilities.handleErrors(inventoryRoute))
 // Account routes
 app.use("/account", utilities.handleErrors(accountRoute))
 
+// Route to build login view
+// router.get("/login", utilities.handleErrors(accountController.buildLogin))
+
 // File Not Found Route
 app.use(async (req, res, next) => {
   next({status: 404, message: 'WHATS UP, you are not suppose to be here!'})
