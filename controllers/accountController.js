@@ -12,6 +12,21 @@ let nav = await utilities.getNav()
 }
 
 /* ****************************************
+*  Deliver registration view
+* *************************************** */
+async function buildRegister(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/register", {
+    title: "Register",
+    nav,
+    errors: null
+  })
+}
+
+
+
+
+/* ****************************************
 *  Process login form submission
 * *************************************** */
 async function loginProcess(req, res, next) {
@@ -25,4 +40,4 @@ async function loginProcess(req, res, next) {
   })
 }
 
-module.exports = { buildLogin, loginProcess }
+module.exports = { buildLogin, loginProcess, buildRegister }

@@ -62,6 +62,9 @@ app.use("/inv", utilities.handleErrors(inventoryRoute))
 // Account routes
 app.use("/account", utilities.handleErrors(accountRoute))
 
+// Account routes - WK04 "The Login View" section was added
+app.use("/account", require("./routes/accountRoute"))
+
 // Route to build login view
 // router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
