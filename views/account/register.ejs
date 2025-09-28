@@ -9,16 +9,26 @@
   <%- messages() %>
   <form action="/account/reguster" method="post" id="registerForm">
     <label id="fName" for="account_firstName">First Name</label>
-    <input type="fName" id="account_firstName" name="account_firstName" required>
+    <input type="text" id="account_firstName" name="account_firstName" required>
+
     <label id="lName" for="account_lastName">Last Name</label>
-    <input type="lName" id="account_lastName" name="account_lastName" required>
+    <input type="text" id="account_lastName" name="account_lastName" required>
+
     <label id="email" for="account_email">Email address</label>
     <input type="email" id="account_email" name="account_email" required>
 
-    <label id="acct_pass"     for="account_password">Password</label>
-    <input type="password" id="account_password" name="account_password" required>
+    <label id="acct_pass" for="account_password">Password</label>
+    <input 
+        type="password" 
+        id="account_password" 
+        name="account_password" 
+        required 
+        minlength="12" 
+        pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/?]).{12,}$"
+        title="Password must be at least 12 characters, contain a capital letter, a number, and a special character."
+    >
+    <button id="submit" type="Register">Register</button>
 
-    <p id="register">Register<a href="/account/register"></a></p>
   </form>
 </body>
 </html>

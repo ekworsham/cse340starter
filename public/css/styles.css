@@ -170,6 +170,7 @@ body {
     margin-top: 1rem;
     border-radius: 1rem;
   }
+
   #email {
     color: white;
   }
@@ -187,8 +188,7 @@ body {
     color: white;
   }
 
-
-    #registerForm {
+  #registerForm {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     background-color: rgb(3, 96, 126);
@@ -197,6 +197,22 @@ body {
     border-radius: .5rem;
     box-shadow: 0 0 20px 8px  rgb(25, 173, 223)
   }
+
+   #submit {
+    background-color: white;
+    color: darkgray;
+    margin-top: 1rem;
+    border-radius: 1rem;
+  }
+  
+  #fName {
+    color: white;
+  }
+
+  #lName {
+    color: white;
+  }
+
 
 @media screen and (min-width: 500px) {
   body {
