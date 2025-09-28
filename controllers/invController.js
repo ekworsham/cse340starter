@@ -14,7 +14,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
   const className = data[0].classification_name
   res.render("./inventory/classification", {
     title: className + " vehicles",
-    nav,
+    nav, errors: null,
     grid,
   })
 }
@@ -31,7 +31,7 @@ invCont.buildByInventoryId = async function(req, res, next) {
     const detail = utilities.buildDetailView(item)
     res.render("inventory/detail", {
       title: item.inv_make + " " + item.inv_model,
-      nav,
+      nav, errors: null,
       item,
       detail
     })

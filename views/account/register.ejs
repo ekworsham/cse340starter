@@ -4,9 +4,18 @@
   <link rel="stylesheet" href="/css/styles.css">
   <title>Register</title>
 </head>
+
 <body>
   <h1>Register</h1>
   <%- messages() %>
+  <% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+  <%  }) %>
+  </ul>
+  <% } %>
+
   <form action="/account/register" method="post" id="registerForm">
     <label id="fName" for="account_firstname">First Name</label>
     <input type="text" id="account_firstName" name="account_firstname" required>

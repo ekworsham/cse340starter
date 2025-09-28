@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+input:required:invalid, input:focus:invalid {
+ /* insert your own styles for invalid form input */
+ background-color: rgb(176, 15, 42);
+}
+
 img {
   max-width: 100%;
   height: auto;
