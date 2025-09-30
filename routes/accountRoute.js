@@ -23,5 +23,13 @@ router.post('/register',
 // POST route for login form 
 router.post("/login", utilities.handleErrors(accountController.loginProcess));
 
+// TEMPORARY Process the login attempt
+router.post(
+  "/login",
+  (req, res) => {
+    res.status(200).send('login process')
+  }
+)
+
 // Export the router
 module.exports = router;

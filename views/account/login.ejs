@@ -10,15 +10,15 @@
   <form action="/account/login" method="post" id="loginForm">
     <label id="email" for="account_email">Email</label>
     <input type="email" id="account_email" name="account_email" 
-    required
+    required value="<%= locals.account_email %>">
     >
 
-    <label id="acct_pass"     for="account_password">Password</label>
+    <label id="acct_pass" for="account_password">Password</label>
     <input 
       type="password" 
       id="account_password" 
       name="account_password" 
-      required
+      required value="<%= locals.account_password %>"
       pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/?]).{12,}$"
       >
 
