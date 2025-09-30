@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <main>
+    <h1><%= title %></h1>
+    <% if (messages && messages.notice) { %>
+      <% messages.notice.forEach(function(msg){ %>
+        <div class="flash"><%= msg %></div>
+      <% }) %>
+    <% } %>
+    <p>Welcome to the Inventory Management page. Use the links below to manage vehicle classifications and inventory.</p>
+    <ul>
+      <li><a href="/inv/add-classification">Add New Classification</a></li>
+      <li><a href="/inv/add-inventory">Add New Inventory</a></li> 
+    </ul>
+  </main>  
+</body>
+</html>

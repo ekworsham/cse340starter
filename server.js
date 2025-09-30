@@ -62,13 +62,13 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory routes
-app.use("/inv", utilities.handleErrors(inventoryRoute))
+app.use("/inv", inventoryRoute)
 
 // Account routes
-app.use("/account", utilities.handleErrors(accountRoute))
+app.use("/account", accountRoute)
 
 // Account routes - WK04 "The Login View" section was added
-app.use("/account", require("./routes/accountRoute"))
+// app.use("/account", require("./routes/accountRoute"))
 
 // Route to build login view
 // router.get("/login", utilities.handleErrors(accountController.buildLogin))
