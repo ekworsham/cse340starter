@@ -4,6 +4,7 @@ const router = new express.Router()
 const invController = require("../controllers/invController")
 const utilities = require("../utilities");
 const classificationValidate = require("../utilities/classification-validation");
+const inventoryValidate = require("../utilities/inventory-validation");
 
 // Route to build inventory by classification view
 router.get("/type/:classificationId", invController.buildByClassificationId);
@@ -22,8 +23,15 @@ router.get("/add-classification", utilities.handleErrors(invController.buildAddC
 // Handle form submission
 router.post(
   "/add-classification",
-  classificationValidate, // your validation middleware
+  classificationValidate, // the validation middleware
   utilities.handleErrors(invController.addClassificationProcess)
+);
+
+// WK04 Task 3 Show the add-inventory form
+router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+
+// Handle form submission the validation middleware
+router.post("/add-inventory", inventoryValidate, utilities.handleErrors(invController.addInventoryProcess)
 );
 
 module.exports = router;

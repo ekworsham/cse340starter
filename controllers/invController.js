@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
+const { validationResult } = require("express-validator");
 
 const invCont = {}
 
@@ -99,4 +100,56 @@ invCont.addClassificationProcess = async function(req, res, next) {
   }
 };
 
-module.exports = invCont
+// Wk04 task 3
+// Show the form
+invCont.buildAddInventory = async function(req, res, next) {
+  let nav = await utilities.getNav();
+  let classificationList = await utilities.buildClassificationList();
+  res.render("inventory/add-inventory", {
+    title: "Add Inventory",
+    nav,
+    classificationList,
+    messages: req.flash(),
+    errors: [],
+    // ...empty/default values for sticky fields
+  });
+};
+
+// Handle form submission
+invCont.addInventoryProcess = async function(req, res, next) {
+  let nav = await utilities.getNav();
+  let classificationList = await utilities.buildClassificationList(req.body.classification_id);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      classificationList,
+      messages: req.flash(),
+      errors: errors.array(),
+      ...req.body // sticky fields
+    });
+  }
+  // Insert into DB
+  const result = await invModel.addInventory(req.body);
+  if (result) {
+    req.flash("notice", "Inventory item added successfully!");
+    nav = await utilities.getNav(); // update nav
+    return res.render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+      messages: req.flash()
+    });
+  } else {
+    req.flash("notice", "Failed to add inventory item.");
+    return res.render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      classificationList,
+      messages: req.flash(),
+      errors: [],
+      ...req.body
+    });
+  }
+};
+module.exports = invCont;
