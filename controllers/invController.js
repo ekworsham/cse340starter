@@ -40,7 +40,6 @@ invCont.buildByInventoryId = async function(req, res, next) {
   }
 }
 
-
 // In controllers/invController.js
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav();
@@ -50,5 +49,54 @@ invCont.buildManagement = async function (req, res, next) {
     messages: req.flash()
   });
 }
+
+// THIS IS WK05 Take #2 
+invCont.buildAddClassification = async function(req, res, next) {
+  let nav = await utilities.getNav();
+  res.render("inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    messages: req.flash(),
+    errors: [],
+    classification_name: ""
+  });
+};
+
+// / Handle form submission
+invCont.addClassificationProcess = async function(req, res, next) {
+  let nav = await utilities.getNav();
+  const { classification_name } = req.body;
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      messages: req.flash(),
+      errors: errors.array(),
+      classification_name
+    });
+  }
+  // Insert into DB
+  const result = await invModel.addClassification(classification_name);
+  if (result) {
+    req.flash("notice", "Classification added successfully!");
+    nav = await utilities.getNav(); // update nav to include new classification
+    return res.render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+      messages: req.flash()
+    });
+  } else {
+    req.flash("notice", "Failed to add classification.");
+    return res.render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      messages: req.flash(),
+      errors: [],
+      classification_name
+    });
+  }
+};
 
 module.exports = invCont
