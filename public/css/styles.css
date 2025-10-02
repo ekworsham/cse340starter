@@ -7,7 +7,7 @@
 
 input:required:invalid, input:focus:invalid {
  /* insert your own styles for invalid form input */
- background-color: rgb(176, 15, 42);
+ background-color: rgb(227, 248, 213);
 }
 
 img {

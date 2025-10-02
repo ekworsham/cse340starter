@@ -152,4 +152,28 @@ invCont.addInventoryProcess = async function(req, res, next) {
     });
   }
 };
+
+/* ***************************
+ *  Build delete confirmation view
+ * ************************** */
+invCont.buildDeleteInventory = async function(req, res, next) {
+  let nav = await utilities.getNav();
+  const inv_id = req.params.inv_id;
+  const item = await invModel.getInventoryById(inv_id);
+  if (!item) {
+    req.flash("notice", "Inventory item not found.");
+    return res.redirect("/inv");
+  }
+  res.render("inventory/delete-confirm", {
+    title: `Delete ${item.inv_make} ${item.inv_model}`,
+    nav,
+    item,
+    messages: req.flash(),
+    errors: []
+  });
+};
+
+
+
+
 module.exports = invCont;
