@@ -11,6 +11,9 @@ router.get("/", utilities.handleErrors(accountController.buildLogin));
 // GET route for login page - WK04 "The Login View" section was added
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
+// WK05 - Default route for account management (must be logged in)
+router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
+
 // GET route for registration page
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
 

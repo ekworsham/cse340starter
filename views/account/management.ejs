@@ -1,0 +1,17 @@
+<main>
+  <h1><%= title %></h1>
+  <% if (messages && messages.notice) { %>
+    <% messages.notice.forEach(function(msg){ %>
+      <div class="flash"><%= msg %></div>
+    <% }) %>
+  <% } %>
+  <% if (errors && errors.length > 0) { %>
+    <ul class="errors">
+      <% errors.forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+  
+  <p>You're logged in</p>
+</main>
