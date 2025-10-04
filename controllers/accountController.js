@@ -8,11 +8,24 @@ require("dotenv").config()
 *  Deliver login view
 **************************************** */
 async function buildLogin(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/login", {
+    title: "Login",
+    nav,
+    errors: [],
+    messages: req.flash()
+  })
+}
+
+/* ***************************************
+*  Deliver login view
+**************************************** */
+async function buildLogin(req, res, next) {
 let nav = await utilities.getNav()
   res.render("account/login", {
     title: "Login",
     nav,
-    errors: null
+    errors: []
   })
 }
 
@@ -24,7 +37,7 @@ async function buildRegister(req, res, next) {
   res.render("account/register", {
     title: "Register",
     nav,
-    errors: null
+    errors: []
   })
 }
 
@@ -60,8 +73,12 @@ async function registerAccount(req, res) {
     res.status(500).render("account/register", {
       title: "Registration",
       nav,
-      errors: null,
+      errors: [],
+      account_firstname,
+      account_lastname,
+      account_email,
     })
+    return
   }
   
   const regResult = await accountModel.registerAccount(
@@ -79,12 +96,17 @@ async function registerAccount(req, res) {
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      errors: [],
     })
   } else {
     req.flash("notice", "Sorry, the registration failed.")
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      errors: [],
+      account_firstname,
+      account_lastname,
+      account_email,
     })
   }
 }
@@ -93,16 +115,21 @@ async function registerAccount(req, res) {
  *  Process login request
  * ************************************ */
 async function accountLogin(req, res) {
+  console.log("Login attempt started") // Debug log
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
+  console.log("Email:", account_email) // Debug log
   const accountData = await accountModel.getAccountByEmail(account_email)
+  console.log("Account found:", !!accountData) // Debug log
   if (!accountData) {
+    console.log("No account found for email") // Debug log
     req.flash("notice", "Please check your credentials and try again.")
     res.status(400).render("account/login", {
       title: "Login",
       nav,
-      errors: null,
+      errors: [],
       account_email,
+      messages: req.flash()
     })
     return
   }
@@ -118,16 +145,25 @@ async function accountLogin(req, res) {
       return res.redirect("/account/")
     }
     else {
-      req.flash("message notice", "Please check your credentials and try again.")
+      req.flash("notice", "Please check your credentials and try again.")
       res.status(400).render("account/login", {
         title: "Login",
         nav,
-        errors: null,
+        errors: [],
         account_email,
+        messages: req.flash()
       })
     }
   } catch (error) {
-    throw new Error('Access Forbidden')
+    console.log("Login error:", error) // Debug log
+    req.flash("notice", "An error occurred during login. Please try again.")
+    res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      errors: [],
+      account_email,
+      messages: req.flash()
+    })
   }
 }
 

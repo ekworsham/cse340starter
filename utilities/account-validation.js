@@ -64,7 +64,7 @@ validate.checkRegData = async (req, res, next) => {
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
     res.render("account/register", {
-      errors,
+      errors: errors.array(), // Convert to array for EJS template
       title: "Registration",
       nav,
       account_firstname,
@@ -102,10 +102,11 @@ validate.checkLoginData = async (req, res, next) => {
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
     res.render("account/login", {
-      errors,
+      errors: errors.array(), // Convert to array for EJS template
       title: "Login",
       nav,
       account_email,
+      messages: req.flash()
     })
     return
   }

@@ -5,14 +5,11 @@ const accountController = require("../controllers/accountController");
 const utilities = require("../utilities");
 const regValidate = require('../utilities/account-validation')
 
-// GET route for "My Account" page
-router.get("/", utilities.handleErrors(accountController.buildLogin));
+// WK05 - Default route for account management (must be logged in)
+router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
 
 // GET route for login page - WK04 "The Login View" section was added
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
-
-// WK05 - Default route for account management (must be logged in)
-router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
 
 // GET route for registration page
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
@@ -23,10 +20,7 @@ router.post('/register',
     utilities.handleErrors(accountController.registerAccount)
 )
 
-// POST route for login form 
-router.post("/login", utilities.handleErrors(accountController.loginProcess));
-
-// WK05 Process the login request that replaced the TEMPORARY process below that is commented out
+// POST route for login form - WK05 Process the login request
 router.post(
   "/login",
   regValidate.loginRules(),
