@@ -18,18 +18,6 @@ async function buildLogin(req, res, next) {
 }
 
 /* ***************************************
-*  Deliver login view
-**************************************** */
-async function buildLogin(req, res, next) {
-let nav = await utilities.getNav()
-  res.render("account/login", {
-    title: "Login",
-    nav,
-    errors: []
-  })
-}
-
-/* ***************************************
 *  Deliver registration view
 **************************************** */
 async function buildRegister(req, res, next) {
@@ -97,6 +85,7 @@ async function registerAccount(req, res) {
       title: "Login",
       nav,
       errors: [],
+      messages: req.flash()
     })
   } else {
     req.flash("notice", "Sorry, the registration failed.")
@@ -107,6 +96,7 @@ async function registerAccount(req, res) {
       account_firstname,
       account_lastname,
       account_email,
+      messages: req.flash()
     })
   }
 }
