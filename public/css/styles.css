@@ -176,6 +176,69 @@ body {
     border-radius: 1rem;
   }
 
+  #loginButton {
+    margin-top: .5rem;
+    border: solid black 2.5px;
+    border-radius: .5rem;
+  }
+
+  #loginButton:hover {
+    box-shadow: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+    transform: scale(1.05);
+  }
+
+  #loginForm p {
+    margin-top: 1rem;
+  }
+
+  #loginForm a {
+    text-decoration: none;
+    background-color: white;
+    color: rgb(1, 1, 1);
+    margin-top: 1rem;
+    border: solid black 2.5px;
+    border-radius: .5rem;
+    padding: 0 .5rem 0 .5rem;
+  }
+
+  #loginForm a:hover {
+    box-shadow: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+    transform: scale(1.05);
+  }
+
+
+/* Register Form********************** */
+#registerButton {
+    margin-top: .5rem;
+    border: solid black 2.5px;
+    border-radius: .5rem;
+  }
+
+  #registerButton:hover {
+    box-shadow: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+    transform: scale(1.05);
+  }
+
+  #registerForm p {
+    margin-top: 1rem;
+  }
+
+  #registerForm a {
+    text-decoration: none;
+    background-color: white;
+    color: rgb(1, 1, 1);
+    margin-top: 1rem;
+    border: solid black 2.5px;
+    border-radius: .5rem;
+    padding: 0 .5rem 0 .5rem;
+  }
+
+  #registerForm a:hover {
+    box-shadow: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+    transform: scale(1.05);
+  }
+
+/* *********************** */
   #email {
     color: white;
   }
@@ -218,6 +281,55 @@ body {
     color: white;
   }
 
+
+/* Add Inventory Page */
+#addInventoryForm {
+  background-color: rgb(225, 208, 185);
+  display: grid;
+  padding: 1rem;
+}
+
+/* *************************** 
+* Inventory Page
+******************************/
+#wrapper h1 {
+  background-color: rgb(225, 208, 185);
+  text-align: center;
+  margin: 0 auto;
+  padding-top: .25rem;
+  padding-bottom: .5rem;
+}
+
+#wrapper li {
+  padding-bottom: 1rem;
+}
+
+#top-header a {
+  border-radius: 10px;
+  padding-left: 1rem;
+}
+#top-header a:hover {
+  box-shadow: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+  transform: scale(1.05);
+}
+#wrapper li a:hover {
+  text-decoration: none;
+  color: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+}
+
+/* *************************** */
+
+#addInventoryForm button {
+  margin-top: 1rem;
+  border: solid black 2.5px;
+  border-radius: .5rem;
+  
+}
+
+#addInventoryForm button:hover {
+  box-shadow: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+  transform: scale(1.05);
+}
 
 @media screen and (min-width: 500px) {
   body {
@@ -316,7 +428,10 @@ body {
     margin-left: 1rem;
   }
 
-  
+  #wrapper h1 {
+  text-align: left;
+  padding-left: 1rem;
+  }
 
 
 }
