@@ -1,22 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-  <main>
-    <h1><%= title %></h1>
-    <% if (messages && messages.notice) { %>
-      <% messages.notice.forEach(function(msg){ %>
-        <div class="flash"><%= msg %></div>
+<main>
+  <h1><%= title %></h1>
+  <% if (messages && messages.notice) { %>
+    <% messages.notice.forEach(function(msg){ %>
+      <div class="flash"><%= msg %></div>
+    <% }) %>
+  <% } %>
+  <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+    <ul class="errors">
+      <% errors.forEach(function(error) { %>
+        <li><%= error.msg %></li>
       <% }) %>
-    <% } %>
-    <p>Welcome to the Inventory Management page. Use the links below to manage vehicle classifications and inventory.</p>
-    <ul>
-      <li><a href="/inv/add-classification">Add New Classification</a></li>
-      <li><a href="/inv/add-inventory">Add New Vehicle</a></li> 
     </ul>
-  </main>  
-</body>
-</html>
+  <% } %>
+  
+  <p>Welcome to the Inventory Management page. Use the links below to manage vehicle classifications and inventory.</p>
+  <ul>
+    <li><a href="/inv/add-classification">Add New Classification</a></li>
+    <li><a href="/inv/add-inventory">Add New Vehicle</a></li> 
+  </ul>
+  <h2>Manage Inventory</h2>
+  <p>Select a classification from the list to see items</p>
+  <% if (typeof classificationSelect !== 'undefined') { %>
+    <%- classificationSelect %>
+  <% } else { %>
+    <p>No classifications available.</p>
+  <% } %>
+  <table id="inventoryDisplay"></table>
+  <noscript>JavaScript must be enabled to use this page.</noscript>
+
+  <script src="/js/inventory.js"></script>
+</main>
