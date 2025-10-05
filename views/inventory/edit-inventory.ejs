@@ -13,11 +13,11 @@
       <% }) %>
     </ul>
   <% } %>
-  <form id="editInventoryForm" action="/inv/update" method="post" novalidate>
+  <form id="editInventoryForm" action="/inv/update/" method="post" novalidate>
     <input type="hidden" name="inv_id" value="<%= typeof inv_id !== 'undefined' ? inv_id : '' %>">
     
     <label for="classificationList">Classification</label>
-    <%- classificationSelect %>
+    <%- classificationList %>
 
     <label for="inv_make">Make</label>
     <input type="text" id="inv_make" name="inv_make" required pattern="^[A-Za-z0-9 ]+$" value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>">
@@ -47,9 +47,5 @@
     <input type="text" id="inv_color" name="inv_color" required pattern="^[A-Za-z ]+$" value="<%= typeof inv_color !== 'undefined' ? inv_color : '' %>">
 
     <button type="submit">Edit Vehicle</button>
-
-    <input type="hidden" name="inv_id"
-    <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
-    <% } %>>
   </form>
 </main>

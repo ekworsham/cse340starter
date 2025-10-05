@@ -4,7 +4,7 @@ const router = new express.Router()
 const invController = require("../controllers/invController")
 const utilities = require("../utilities");
 const classificationValidate = require("../utilities/classification-validation");
-const inventoryValidate = require("../utilities/inventory-validation");
+const { inventoryValidate, checkInventoryData, checkUpdateData } = require("../utilities/inventory-validation");
 
 // Route to build inventory by classification view
 router.get("/type/:classificationId", invController.buildByClassificationId);
@@ -29,7 +29,10 @@ router.post("/add-classification", classificationValidate, // the validation mid
 router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
 
 // Handle form submission the validation middleware
-router.post("/add-inventory", inventoryValidate, utilities.handleErrors(invController.addInventoryProcess)
+router.post("/add-inventory", 
+  inventoryValidate, 
+  checkInventoryData,
+  utilities.handleErrors(invController.addInventoryProcess)
 );
 
 //  WK05 Team Activity DELETE
@@ -41,5 +44,10 @@ router.get("/getInventory/:classification_id", utilities.handleErrors(invControl
 
 // WK05 - Add this new route with inventory_id parameter
 router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory));
+router.post("/update/", 
+  inventoryValidate,
+  checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+)
 
 module.exports = router;

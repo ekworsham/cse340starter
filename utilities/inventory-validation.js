@@ -1,4 +1,5 @@
-const { body } = require("express-validator");
+const { body, validationResult } = require("express-validator");
+const utilities = require("../utilities");
 
 const inventoryValidate = [
   body("inv_make").trim().notEmpty().withMessage("Make is required."),
@@ -13,4 +14,72 @@ const inventoryValidate = [
   body("classification_id").notEmpty().withMessage("Classification is required.")
 ];
 
-module.exports = inventoryValidate;
+/* ******************************
+ * Check data and return errors or continue to add inventory
+ * ***************************** */
+const checkInventoryData = async (req, res, next) => {
+  const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    let classificationList = await utilities.buildClassificationList(classification_id)
+    res.render("inventory/add-inventory", {
+      errors: errors.array(),
+      title: "Add Inventory",
+      nav,
+      classificationList,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
+    })
+    return
+  }
+  next()
+}
+
+/* ******************************
+ * Check data and return errors or continue to edit inventory
+ * ***************************** */
+const checkUpdateData = async (req, res, next) => {
+  const { inv_id: rawInvId, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body
+  
+  // Handle case where inv_id might be an array
+  const inv_id = Array.isArray(rawInvId) ? rawInvId[0] : rawInvId
+  
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    let classificationList = await utilities.buildClassificationList(classification_id)
+    const itemName = `${inv_make} ${inv_model}`
+    res.render("inventory/edit-inventory", {
+      errors: errors.array(),
+      title: "Edit " + itemName,
+      nav,
+      classificationList,
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
+    })
+    return
+  }
+  next()
+}
+
+module.exports = { inventoryValidate, checkInventoryData, checkUpdateData };
