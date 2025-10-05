@@ -6,7 +6,7 @@ const utilities = require("../utilities");
 const regValidate = require('../utilities/account-validation')
 
 // WK05 - Default route for account management (must be logged in)
-router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 
 // GET route for login page - WK04 "The Login View" section was added
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
