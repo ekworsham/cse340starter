@@ -39,4 +39,7 @@ router.post("/delete/:inv_id", utilities.handleErrors(invController.deleteInvent
 
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
+// WK05 - Add this new route with inventory_id parameter
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory));
+
 module.exports = router;

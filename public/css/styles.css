@@ -317,6 +317,41 @@ body {
   color: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
 }
 
+#invP {
+  background-color: rgb(225, 208, 185);
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+#invManagement a {
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0 auto;
+}
+
+#invManagement {
+  list-style-type: none;
+  border: solid black 2.5px;
+  border-radius: .5rem;
+}
+
+#invM li {
+  background-color: pink;
+  padding-bottom: .01rem;
+  width: 11rem;
+  text-align: center;
+}
+
+#invM {
+  display: grid;
+  background-color: rgb(225, 208, 185);
+  margin: 0 auto;
+  padding-left: 0%;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 /* *************************** */
 
 #addInventoryForm button {
