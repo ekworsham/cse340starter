@@ -53,6 +53,20 @@ async function addClassification(classification_name) {
 }
 
 /* ***************************
+ *  Check if classification already exists
+****************************** */
+async function checkExistingClassification(classification_name) {
+  try {
+    const sql = "SELECT * FROM classification WHERE classification_name = $1";
+    const result = await pool.query(sql, [classification_name]);
+    return result.rows.length > 0;
+  } catch (error) {
+    console.error("Check existing classification error:", error);
+    return false;
+  }
+}
+
+/* ***************************
  *  THIS IS WK04 task 3
 ****************************** */
 async function addInventory(data) {
@@ -114,4 +128,4 @@ async function deleteInventory(inv_id) {
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getInventoryById, addClassification, addInventory, updateInventory, deleteInventory};
+module.exports = { getClassifications, getInventoryByClassificationId, getInventoryById, addClassification, checkExistingClassification, addInventory, updateInventory, deleteInventory};
