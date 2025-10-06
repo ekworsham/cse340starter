@@ -1,0 +1,40 @@
+<!-- WK05 TEAM ACTIVITY -->
+<main>
+  <h1><%= title %></h1>
+  <% if (messages && messages.notice) { %>
+    <% messages.notice.forEach(function(msg){ %>
+      <div><%= msg %></div>
+    <% }) %>
+  <% } %>
+  <% if (errors && errors.length > 0) { %>
+    <ul>
+      <% errors.forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+  
+  <p><strong>Notice:</strong> Deleting this vehicle will remove it from the inventory permanently!</p>
+  
+  <form action="/inv/delete/<%= inv_id %>" method="post">
+    <fieldset>
+      <legend>Vehicle Details</legend>
+      
+      <label>Make:</label>
+      <span><%= inv_make %></span>
+      
+      <label>Model:</label>
+      <span><%= inv_model %></span>
+      
+      <label>Year:</label>
+      <span><%= inv_year %></span>
+      
+      <label>Price:</label>
+      <span>$<%= Number(inv_price).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
+    </fieldset>
+    
+    <input type="hidden" name="inv_id" value="<%= inv_id %>">
+    <button type="submit" class="delete-btn">Delete Vehicle</button>
+    <a href="/inv/" class="cancel-link">Cancel</a>
+  </form>
+</main>

@@ -37,9 +37,7 @@ router.post("/add-inventory",
 
 //  WK05 Team Activity DELETE
 router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventory));
-
 router.post("/delete/:inv_id", utilities.handleErrors(invController.deleteInventory));
-
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 // WK05 - Add this new route with inventory_id parameter

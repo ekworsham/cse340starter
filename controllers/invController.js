@@ -403,18 +403,29 @@ invCont.updateInventory = async function (req, res, next) {
 invCont.deleteInventory = async function(req, res, next) {
   try {
     let nav = await utilities.getNav();
+    
+    // Collect the inv_id value from the URL parameters
     const inv_id = parseInt(req.params.inv_id);
+    
+    // Pass the inv_id value to a model-based function to delete the inventory item
     const deleteResult = await invModel.deleteInventory(inv_id);
     
     if (deleteResult) {
+      // If the delete was successful, return a flash message to the inventory management view
       req.flash("notice", "The vehicle was successfully deleted.");
       res.redirect("/inv/");
     } else {
+      // If the delete failed, return a flash failure message to the delete confirmation view
       req.flash("notice", "Sorry, the deletion failed.");
-      res.redirect("/inv/");
+      // Redirect to the route to rebuild the delete view for the same inventory item
+      res.redirect(`/inv/delete/${inv_id}`);
     }
   } catch (error) {
-    next(error);
+    console.error("Error in deleteInventory:", error);
+    // If there's an error, redirect back to the delete confirmation view
+    const inv_id = parseInt(req.params.inv_id);
+    req.flash("notice", "Sorry, there was an error processing the deletion.");
+    res.redirect(`/inv/delete/${inv_id}`);
   }
 }
 
