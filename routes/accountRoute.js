@@ -28,13 +28,9 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 )
 
-// TEMPORARY Process the login attempt
-// router.post(
-//   "/login",
-//   (req, res) => {
-//     res.status(200).send('login process')
-//   }
-// )
+// WK05 Assignment Logout route
+router.get("/logout", utilities.handleErrors(accountController.accountLogout));
+
 
 // Export the router
 module.exports = router;
