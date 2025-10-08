@@ -1,6 +1,10 @@
 <h1 id="welcome">Welcome to CSE Motors!</h1>
 
-<%- messages() %>
+<% if (messages && messages.notice) { %>
+  <% messages.notice.forEach(function(msg){ %>
+    <div class="flash"><%= msg %></div>
+  <% }) %>
+<% } %>
 
 <section id="features">
     <div class="container">

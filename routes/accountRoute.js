@@ -6,7 +6,7 @@ const utilities = require("../utilities");
 const regValidate = require('../utilities/account-validation')
 
 // WK05 - Default route for account management (must be logged in)
-router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
+router.get("/", utilities.checkJWTToken, utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 
 // GET route for login page - WK04 "The Login View" section was added
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
@@ -30,6 +30,28 @@ router.post(
 
 // WK05 Assignment Logout route
 router.get("/logout", utilities.handleErrors(accountController.accountLogout));
+
+// GET route to build update account view
+router.get("/update", utilities.checkJWTToken, utilities.checkLogin, utilities.handleErrors(accountController.buildUpdateAccount));
+
+// POST route to process account update
+router.post("/update", 
+    utilities.checkJWTToken,
+    utilities.checkLogin,
+    regValidate.updateAccountRules(),
+    regValidate.checkUpdateData,
+    utilities.handleErrors(accountController.updateAccount)
+);
+
+// POST route to process password change
+router.post("/change-password", 
+    utilities.checkJWTToken,
+    utilities.checkLogin,
+    regValidate.passwordChangeRules(),
+    regValidate.checkPasswordData,
+    utilities.handleErrors(accountController.changePassword)
+);
+
 
 
 // Export the router

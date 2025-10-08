@@ -15,21 +15,25 @@
     </ul>
   <% } %>
 
-  <div class="account-info">
-    <h2>Account Information</h2>
-    <p>Welcome, <%= locals.accountData.account_firstname %> <%= locals.accountData.account_lastname %>!</p>
-    <p>Email: <%= locals.accountData.account_email %></p>
-    <a href="/account/update" class="button">Update Account Information</a>
-  </div>
-
-  <!-- Only show inventory management for Employee/Admin -->
-  <% if (locals.accountData.account_type === "Employee" || locals.accountData.account_type === "Admin") { %>
-    <div class="inventory-management">
-      <h2>Inventory Management</h2>
-      <p>You have administrative privileges to manage inventory.</p>
-      <a href="/inv/" class="button">Manage Inventory</a>
-    </div>
-  <% } %>
+  <!-- Greeting for all account types (H2 with first name only) -->
+  <h2>Welcome <%= locals.accountData.account_firstname %></h2>
+  <p>You're logged in.</p>
   
-  <p>You're logged in</p>
+  <!-- Account Information Display -->
+  <div class="account-info">
+    <h3>Account Information</h3>
+    <p><strong>Name:</strong> <%= locals.accountData.account_firstname %> <%= locals.accountData.account_lastname %></p>
+    <p><strong>Email:</strong> <%= locals.accountData.account_email %></p>
+    <p><strong>Account Type:</strong> <%= locals.accountData.account_type %></p>
+  </div>
+  
+  <!-- Update Account Information link (for all users) -->
+  <p><a href="/account/update">Update Account Information</a></p>
+
+  <!-- Only show inventory management for Employee/Admin (H2 heading) -->
+  <% if (locals.accountData.account_type === "Employee" || locals.accountData.account_type === "Admin") { %>
+    <h2>Inventory Management</h2>
+    <p><a href="/inv/">Manage Inventory</a></p>
+  <% } %>
+
 </main>
