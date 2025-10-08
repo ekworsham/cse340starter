@@ -1,16 +1,34 @@
 <main>
   <h1><%= title %></h1>
+
   <% if (messages && messages.notice) { %>
     <% messages.notice.forEach(function(msg){ %>
       <div class="flash"><%= msg %></div>
     <% }) %>
   <% } %>
+
   <% if (errors && errors.length > 0) { %>
     <ul class="errors">
       <% errors.forEach(function(error) { %>
         <li><%= error.msg %></li>
       <% }) %>
     </ul>
+  <% } %>
+
+  <div class="account-info">
+    <h2>Account Information</h2>
+    <p>Welcome, <%= locals.accountData.account_firstname %> <%= locals.accountData.account_lastname %>!</p>
+    <p>Email: <%= locals.accountData.account_email %></p>
+    <a href="/account/update" class="button">Update Account Information</a>
+  </div>
+
+  <!-- Only show inventory management for Employee/Admin -->
+  <% if (locals.accountData.account_type === "Employee" || locals.accountData.account_type === "Admin") { %>
+    <div class="inventory-management">
+      <h2>Inventory Management</h2>
+      <p>You have administrative privileges to manage inventory.</p>
+      <a href="/inv/" class="button">Manage Inventory</a>
+    </div>
   <% } %>
   
   <p>You're logged in</p>

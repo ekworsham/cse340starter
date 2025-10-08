@@ -2,50 +2,74 @@
 const express = require("express")
 const router = new express.Router() 
 const invController = require("../controllers/invController")
-const utilities = require("../utilities");
-const classificationValidate = require("../utilities/classification-validation");
-const { inventoryValidate, checkInventoryData, checkUpdateData } = require("../utilities/inventory-validation");
+const utilities = require("../utilities")
+const { classificationValidate, inventoryValidate, checkInventoryData, checkUpdateData, checkClassificationData } = require("../utilities/inventory-validation")
 
-// Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+// ==========================================
+// PUBLIC ROUTES (No authentication required)
+// ==========================================
 
+// Route to build inventory by classification view (PUBLIC)
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId))
 
-// THIS IS STEP #1
-// Route to build inventory item detail view
-router.get("/detail/:invId", invController.buildByInventoryId);
+// Route to build inventory item detail view (PUBLIC)
+router.get("/detail/:invId", utilities.handleErrors(invController.buildByInventoryId))
 
-// In routes/inventoryRoute.js
-router.get("/", utilities.handleErrors(invController.buildManagement));
-
-// Show the add-classification form
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
-
-// Handle form submission
-router.post("/add-classification", classificationValidate, // the validation middleware
-  utilities.handleErrors(invController.addClassificationProcess)
-);
-
-// WK04 Task 3 Show the add-inventory form
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
-
-// Handle form submission the validation middleware
-router.post("/add-inventory", 
-  inventoryValidate, 
-  checkInventoryData,
-  utilities.handleErrors(invController.addInventoryProcess)
-);
-
-//  WK05 Team Activity DELETE
-router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventory));
-router.post("/delete/:inv_id", utilities.handleErrors(invController.deleteInventory));
+// JSON route for AJAX (PUBLIC - for populating management table)
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
-// WK05 - Add this new route with inventory_id parameter
-router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory));
-router.post("/update/", 
+// ==========================================
+// ADMIN ROUTES (Employee/Admin access required)
+// ==========================================
+
+// Route to build inventory management view (ADMIN ONLY)
+router.get("/", utilities.checkAccountType, utilities.handleErrors(invController.buildManagement))
+
+// ==========================================
+// CLASSIFICATION ADMIN ROUTES
+// ==========================================
+
+// Route to build add classification view (ADMIN ONLY)
+router.get("/add-classification", utilities.checkAccountType, utilities.handleErrors(invController.buildAddClassification))
+
+// Route to process add classification (ADMIN ONLY)
+router.post("/add-classification", 
+  utilities.checkAccountType,
+  classificationValidate,
+  checkClassificationData,
+  utilities.handleErrors(invController.addClassificationProcess)
+)
+
+// ==========================================
+// INVENTORY ADMIN ROUTES
+// ==========================================
+
+// Route to build add inventory view (ADMIN ONLY)
+router.get("/add-inventory", utilities.checkAccountType, utilities.handleErrors(invController.buildAddInventory))
+
+// Route to process add inventory (ADMIN ONLY)
+router.post("/add-inventory",
+  utilities.checkAccountType,
+  inventoryValidate,
+  checkInventoryData,
+  utilities.handleErrors(invController.addInventoryProcess)
+)
+
+// Route to build edit inventory view (ADMIN ONLY)
+router.get("/edit/:inv_id", utilities.checkAccountType, utilities.handleErrors(invController.buildEditInventory))
+
+// Route to process update inventory (ADMIN ONLY)
+router.post("/update/",
+  utilities.checkAccountType,
   inventoryValidate,
   checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
 )
 
-module.exports = router;
+// Route to build delete confirmation view (ADMIN ONLY)
+router.get("/delete/:inv_id", utilities.checkAccountType, utilities.handleErrors(invController.buildDeleteInventory))
+
+// Route to process delete inventory (ADMIN ONLY)
+router.post("/delete/:inv_id", utilities.checkAccountType, utilities.handleErrors(invController.deleteInventory))
+
+module.exports = router

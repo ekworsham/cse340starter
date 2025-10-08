@@ -134,6 +134,28 @@ Util.checkJWTToken = (req, res, next) => {
 }
 
 /* ****************************************
+ * WK05 Assignment Middleware to check account type 
+ **************************************** */
+Util.checkAccountType = (req, res, next) => {
+  if (res.locals.loggedin) {
+    // Check if account type is Employee or Admin
+    if (res.locals.accountData.account_type === "Employee" || 
+        res.locals.accountData.account_type === "Admin") {
+      next(); // Allow access
+    } else {
+      req.flash("notice", "You do not have permission to access this resource. Employee or Admin access required.");
+      return res.redirect("/account/login");
+    }
+  } else {
+    req.flash("notice", "Please log in with an Employee or Admin account to access this resource.");
+    return res.redirect("/account/login");
+  }
+};
+
+
+
+
+/* ****************************************
  * WK05 assignment Check Login
  * ************************************ */
  Util.checkLogin = (req, res, next) => {

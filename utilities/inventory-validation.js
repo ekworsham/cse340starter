@@ -14,6 +14,16 @@ const inventoryValidate = [
   body("classification_id").notEmpty().withMessage("Classification is required.")
 ];
 
+// Add classification validation rules
+const classificationValidate = [
+  body("classification_name")
+    .trim()
+    .notEmpty()
+    .withMessage("Classification name is required.")
+    .matches(/^[A-Za-z]+$/)
+    .withMessage("Classification name must contain only letters.")
+];
+
 /* ******************************
  * Check data and return errors or continue to add inventory
  * ***************************** */
@@ -39,6 +49,26 @@ const checkInventoryData = async (req, res, next) => {
       inv_miles,
       inv_color,
       classification_id
+    })
+    return
+  }
+  next()
+}
+
+/* ******************************
+ * Check classification data and return errors or continue to add classification
+ * ***************************** */
+const checkClassificationData = async (req, res, next) => {
+  const { classification_name } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("inventory/add-classification", {
+      errors: errors.array(),
+      title: "Add Classification",
+      nav,
+      classification_name
     })
     return
   }
@@ -82,4 +112,9 @@ const checkUpdateData = async (req, res, next) => {
   next()
 }
 
-module.exports = { inventoryValidate, checkInventoryData, checkUpdateData };
+module.exports = { 
+  inventoryValidate, 
+  classificationValidate,
+  checkInventoryData, 
+  checkClassificationData,
+  checkUpdateData, };
