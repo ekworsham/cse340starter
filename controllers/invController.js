@@ -410,8 +410,6 @@ invCont.updateInventory = async function (req, res, next) {
  * ************************** */
 invCont.deleteInventory = async function(req, res, next) {
   try {
-    let nav = await utilities.getNav();
-    
     // Collect the inv_id value from the URL parameters
     const inv_id = parseInt(req.params.inv_id);
     
@@ -434,6 +432,31 @@ invCont.deleteInventory = async function(req, res, next) {
     const inv_id = parseInt(req.params.inv_id);
     req.flash("notice", "Sorry, there was an error processing the deletion.");
     res.redirect(`/inv/delete/${inv_id}`);
+  }
+}
+
+/* ***************************
+ *  Clean up empty classifications
+ * ************************** */
+invCont.cleanupEmptyClassifications = async function(req, res, next) {
+  try {
+    const cleanupResult = await invModel.cleanupEmptyClassifications();
+    
+    if (cleanupResult !== null) {
+      if (cleanupResult > 0) {
+        req.flash("notice", `Successfully removed ${cleanupResult} empty classification(s) from navigation.`);
+      } else {
+        req.flash("notice", "No empty classifications found to remove.");
+      }
+    } else {
+      req.flash("notice", "Error occurred while cleaning up classifications.");
+    }
+    
+    res.redirect("/inv/");
+  } catch (error) {
+    console.error("Error in cleanupEmptyClassifications:", error);
+    req.flash("notice", "Error occurred while cleaning up classifications.");
+    res.redirect("/inv/");
   }
 }
 

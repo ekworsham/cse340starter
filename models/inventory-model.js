@@ -8,6 +8,18 @@ async function getClassifications() {
 }
 
 /* ***************************
+ *  Get classifications that have vehicles (for navigation)
+ * ************************** */
+async function getClassificationsWithVehicles() {
+    return await pool.query(
+        `SELECT DISTINCT c.classification_id, c.classification_name 
+         FROM public.classification c 
+         INNER JOIN public.inventory i ON c.classification_id = i.classification_id 
+         ORDER BY c.classification_name`
+    )   
+}
+
+/* ***************************
  *  Get all inventory items and classification_name by classification_id
  * ************************** */
 async function getInventoryByClassificationId(classification_id) {
@@ -128,4 +140,22 @@ async function deleteInventory(inv_id) {
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getInventoryById, addClassification, checkExistingClassification, addInventory, updateInventory, deleteInventory};
+/* ***************************
+ *  Clean up empty classifications (no vehicles)
+****************************** */
+async function cleanupEmptyClassifications() {
+  try {
+    const sql = `DELETE FROM classification 
+                 WHERE classification_id NOT IN (
+                   SELECT DISTINCT classification_id 
+                   FROM inventory
+                 )`;
+    const data = await pool.query(sql);
+    return data.rowCount; // Returns number of deleted classifications
+  } catch (error) {
+    console.error("Cleanup empty classifications error:", error);
+    return null;
+  }
+}
+
+module.exports = { getClassifications, getClassificationsWithVehicles, getInventoryByClassificationId, getInventoryById, addClassification, checkExistingClassification, addInventory, updateInventory, deleteInventory, cleanupEmptyClassifications};

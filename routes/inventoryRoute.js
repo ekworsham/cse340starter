@@ -72,4 +72,7 @@ router.get("/delete/:inv_id", utilities.checkAccountType, utilities.handleErrors
 // Route to process delete inventory (ADMIN ONLY)
 router.post("/delete/:inv_id", utilities.checkAccountType, utilities.handleErrors(invController.deleteInventory))
 
+// Route to cleanup empty classifications (ADMIN ONLY)
+router.get("/cleanup-classifications", utilities.checkAccountType, utilities.handleErrors(invController.cleanupEmptyClassifications))
+
 module.exports = router
