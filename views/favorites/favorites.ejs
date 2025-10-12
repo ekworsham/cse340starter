@@ -1,0 +1,19 @@
+<main id="favorites-main">
+  <h1><%= title %></h1>
+  
+  <% if (messages && messages.notice) { %>
+    <% messages.notice.forEach(function(msg){ %>
+      <div class="flash notice"><%= msg %></div>
+    <% }) %>
+  <% } %>
+  
+  <% if (messages && messages.error) { %>
+    <% messages.error.forEach(function(msg){ %>
+      <div class="flash error"><%= msg %></div>
+    <% }) %>
+  <% } %>
+
+  <div id="favorites-display">
+    <%- favoritesGrid %>
+  </div>
+</main>

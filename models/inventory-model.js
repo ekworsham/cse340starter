@@ -38,6 +38,24 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 /* ***************************
+ *  Get all vehicles with classification info
+ * ************************** */
+async function getAllVehicles() {
+  try {
+    const data = await pool.query(
+      `SELECT i.*, c.classification_name 
+       FROM public.inventory AS i 
+       JOIN public.classification AS c 
+       ON i.classification_id = c.classification_id 
+       ORDER BY c.classification_name, i.inv_make, i.inv_model`
+    )
+    return data.rows
+  } catch (error) {
+    console.error("getAllVehicles error " + error)
+  }
+}
+
+/* ***************************
  *  THIS IS STEP # 3 and I added getInventoryById to my modeul.exports
 
 Get inventory item by ID
@@ -158,4 +176,4 @@ async function cleanupEmptyClassifications() {
   }
 }
 
-module.exports = { getClassifications, getClassificationsWithVehicles, getInventoryByClassificationId, getInventoryById, addClassification, checkExistingClassification, addInventory, updateInventory, deleteInventory, cleanupEmptyClassifications};
+module.exports = { getClassifications, getClassificationsWithVehicles, getInventoryByClassificationId, getInventoryById, getAllVehicles, addClassification, checkExistingClassification, addInventory, updateInventory, deleteInventory, cleanupEmptyClassifications};

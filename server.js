@@ -15,6 +15,7 @@ const app = express();
 const static = require("./routes/static");
 const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute");
+const favoritesRoute = require("./routes/favoritesRoute");
 const baseController = require("./controllers/baseController")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
@@ -70,6 +71,9 @@ app.use("/inv", inventoryRoute)
 // Account routes
 app.use("/account", accountRoute)
 
+// Favorites routes
+app.use("/favorites", favoritesRoute)
+
 // Account routes - WK04 "The Login View" section was added
 // app.use("/account", require("./routes/accountRoute"))
 
@@ -80,6 +84,13 @@ app.use("/account", accountRoute)
 app.use(async (req, res, next) => {
   next({status: 404, message: 'WHATS UP, you are not suppose to be here!'})
 })
+
+// Routes
+app.use(require("./routes/static"))
+app.use("/account", require("./routes/accountRoute"))
+app.use("/inv", require("./routes/inventoryRoute"))
+app.use("/favorites", require("./routes/favoritesRoute")) // Add this line
+
 
 /* ***********************
 * Express Error Handler

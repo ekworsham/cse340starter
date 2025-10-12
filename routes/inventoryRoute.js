@@ -15,6 +15,9 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 // Route to build inventory item detail view (PUBLIC)
 router.get("/detail/:invId", utilities.handleErrors(invController.buildByInventoryId))
 
+// Route to browse all vehicles (PUBLIC)
+router.get("/browse", utilities.handleErrors(invController.buildBrowseView))
+
 // JSON route for AJAX (PUBLIC - for populating management table)
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 

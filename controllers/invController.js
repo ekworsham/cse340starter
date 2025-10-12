@@ -67,6 +67,37 @@ invCont.buildByInventoryId = async function(req, res, next) {
 }
 
 /* ***************************
+ *  Build browse all vehicles view
+ * ************************** */
+invCont.buildBrowseView = async function (req, res, next) {
+  try {
+    // Get all vehicles from all classifications
+    const data = await invModel.getAllVehicles()
+    // Get classifications for filter dropdown
+    const classifications = await invModel.getClassifications()
+    let nav = await utilities.getNav()
+    
+    let vehiclesGrid = ""
+    if (data && data.length > 0) {
+      vehiclesGrid = await utilities.buildBrowseGrid(data)
+    } else {
+      vehiclesGrid = '<p class="notice">No vehicles found in our inventory.</p>'
+    }
+    
+    res.render("./inventory/browse", {
+      title: "Browse All Vehicles",
+      nav,
+      vehiclesGrid,
+      classifications: classifications.rows,
+      errors: []
+    })
+  } catch (error) {
+    console.error("Error in buildBrowseView:", error)
+    next(error)
+  }
+}
+
+/* ***************************
  *  Build inventory management view
  * ************************** */
 invCont.buildManagement = async function (req, res, next) {

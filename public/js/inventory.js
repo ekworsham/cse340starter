@@ -42,3 +42,80 @@ function buildInventoryList(data) {
  // Display the contents in the Inventory Management view 
  inventoryDisplay.innerHTML = dataTable; 
 }
+
+// Handle favorite button clicks
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle both detail page and grid favorite buttons
+  document.addEventListener('click', function(event) {
+    if (event.target.matches('.favorite-btn, .favorite-btn-small')) {
+      event.preventDefault();
+      
+      const invId = event.target.getAttribute('data-inv-id');
+      if (!invId) {
+        console.error('No inventory ID found');
+        return;
+      }
+      
+      toggleFavorite(invId, event.target);
+    }
+  });
+});
+
+async function toggleFavorite(invId, buttonElement) {
+  try {
+    const response = await fetch('/favorites/toggle', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ inv_id: invId })
+    });
+    
+    if (response.ok) {
+      const result = await response.json();
+      updateFavoriteButton(buttonElement, result.isFavorite);
+      
+      // Show success message
+      showMessage(result.message || 'Favorite updated successfully!', 'success');
+    } else {
+      const error = await response.json();
+      showMessage(error.message || 'Failed to update favorite', 'error');
+    }
+  } catch (error) {
+    console.error('Error toggling favorite:', error);
+    showMessage('Network error. Please try again.', 'error');
+  }
+}
+
+function updateFavoriteButton(buttonElement, isFavorite) {
+  if (buttonElement.classList.contains('favorite-btn')) {
+    // Detail page button
+    const textElement = buttonElement.querySelector('#favoriteText');
+    if (textElement) {
+      textElement.textContent = isFavorite ? '💔 Remove from Favorites' : '❤️ Add to Favorites';
+    }
+  } else if (buttonElement.classList.contains('favorite-btn-small')) {
+    // Grid button
+    buttonElement.textContent = isFavorite ? '💔' : '❤️';
+    buttonElement.title = isFavorite ? 'Remove from favorites' : 'Add to favorites';
+  }
+}
+
+function showMessage(message, type) {
+  // Create or update a message display element
+  let messageDiv = document.querySelector('.flash-message');
+  if (!messageDiv) {
+    messageDiv = document.createElement('div');
+    messageDiv.className = 'flash-message';
+    document.body.insertBefore(messageDiv, document.body.firstChild);
+  }
+  
+  messageDiv.className = `flash-message ${type}`;
+  messageDiv.textContent = message;
+  messageDiv.style.display = 'block';
+  
+  // Hide message after 3 seconds
+  setTimeout(() => {
+    messageDiv.style.display = 'none';
+  }, 3000);
+}

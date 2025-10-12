@@ -2,10 +2,12 @@
     <span class="siteName">
         <a href="/" title="Return to home page">CSE Motors</a>
     </span>
+
     <div id="tools">
     <% if (locals.loggedin) { %>
       <!-- User is logged in: Show Welcome link and Logout -->
       <a href="/account/" title="Go to account management">Welcome <%= locals.accountData.account_firstname %></a>
+      <a href="/favorites/" title="View my favorites">My Favorites</a>
       <a href="/account/logout" title="Logout">Logout</a>
     <% } else { %>
       <!-- User is NOT logged in: Show My Account link -->
@@ -13,3 +15,6 @@
     <% } %>
     </div>
 </header>
+
+
+

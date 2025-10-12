@@ -1,0 +1,76 @@
+<main id="browse-main">
+  <h1><%= title %></h1>
+  
+  <% if (messages && messages.notice) { %>
+    <% messages.notice.forEach(function(msg){ %>
+      <div class="flash notice"><%= msg %></div>
+    <% }) %>
+  <% } %>
+  
+  <% if (messages && messages.error) { %>
+    <% messages.error.forEach(function(msg){ %>
+      <div class="flash error"><%= msg %></div>
+    <% }) %>
+  <% } %>
+
+  <!-- Filter Options -->
+  <div class="browse-filters">
+    <h2>Find Your Perfect Vehicle</h2>
+    <div class="filter-group">
+      <label for="categoryFilter">Filter by Category:</label>
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+        <% if (classifications && classifications.length > 0) { %>
+          <% classifications.forEach(function(classification) { %>
+            <option value="<%= classification.classification_name %>"><%= classification.classification_name %></option>
+          <% }) %>
+        <% } %>
+      </select>
+    </div>
+  </div>
+
+  <!-- All Vehicles Grid -->
+  <div id="all-vehicles-display">
+    <%- vehiclesGrid %>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  const vehicleItems = document.querySelectorAll('.browse-item');
+  
+  categoryFilter.addEventListener('change', function() {
+    const selectedCategory = this.value.toLowerCase();
+    
+    vehicleItems.forEach(function(item) {
+      const categoryTag = item.querySelector('.classification-tag');
+      if (categoryTag) {
+        const itemCategory = categoryTag.textContent.toLowerCase();
+        
+        if (selectedCategory === '' || itemCategory === selectedCategory) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      }
+    });
+    
+    // Show/hide "no vehicles" message
+    const visibleItems = Array.from(vehicleItems).filter(item => item.style.display !== 'none');
+    const vehicleDisplay = document.getElementById('all-vehicles-display');
+    const noVehiclesMsg = vehicleDisplay.querySelector('.no-vehicles-message');
+    
+    if (visibleItems.length === 0 && selectedCategory !== '') {
+      if (!noVehiclesMsg) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'no-vehicles-message';
+        msgDiv.innerHTML = '<p class="notice">No vehicles found in the selected category.</p>';
+        vehicleDisplay.appendChild(msgDiv);
+      }
+    } else if (noVehiclesMsg) {
+      noVehiclesMsg.remove();
+    }
+  });
+});
+</script>
