@@ -86,4 +86,26 @@ favCont.buildFavorites = async function (req, res, next) {
   }
 }
 
+/* ***************************
+ *  Check if vehicle is favorited
+ * ************************** */
+favCont.checkFavorite = async function (req, res, next) {
+  try {
+    const { inv_id } = req.params
+    const account_id = res.locals.accountData ? res.locals.accountData.account_id : null
+
+    if (!account_id) {
+      return res.json({ isFavorite: false })
+    }
+
+    const isFavorite = await favoritesModel.isFavorite(account_id, inv_id)
+    
+    res.json({ isFavorite })
+    
+  } catch (error) {
+    console.error("Check favorite error:", error)
+    res.json({ isFavorite: false })
+  }
+}
+
 module.exports = favCont

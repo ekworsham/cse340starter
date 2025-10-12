@@ -10,6 +10,12 @@ router.post("/toggle",
   utilities.handleErrors(favoritesController.toggleFavorite)
 )
 
+// Route to check favorite status
+router.get("/check/:inv_id", 
+  utilities.checkJWTToken,
+  utilities.handleErrors(favoritesController.checkFavorite)
+)
+
 // Route to display favorites page
 router.get("/", 
   utilities.checkJWTToken,

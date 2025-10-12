@@ -1,11 +1,17 @@
 // filepath: public/js/favorites.js
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('Favorites.js loaded')
+  
   // Handle favorite heart clicks
   document.addEventListener('click', function(e) {
-    if (e.target.closest('.favorite-heart')) {
+    console.log('Click detected on:', e.target)
+    
+    if (e.target.closest('.favorite-heart') || e.target.closest('.favorite-btn-small')) {
       e.preventDefault()
-      const button = e.target.closest('.favorite-heart')
+      console.log('Favorite heart clicked!')
+      const button = e.target.closest('.favorite-heart') || e.target.closest('.favorite-btn-small')
       const invId = button.dataset.invId
+      console.log('Vehicle ID:', invId)
       
       toggleFavorite(invId, button)
     }
@@ -27,7 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 async function toggleFavorite(invId, button) {
+  console.log('toggleFavorite called with invId:', invId)
   try {
+    console.log('Making fetch request to /favorites/toggle')
     const response = await fetch('/favorites/toggle', {
       method: 'POST',
       headers: {
@@ -37,16 +45,28 @@ async function toggleFavorite(invId, button) {
       body: JSON.stringify({ inv_id: invId })
     })
     
+    console.log('Response received:', response.status)
     const result = await response.json()
+    console.log('Result:', result)
     
     if (result.success) {
       // Update heart appearance
       if (result.isFavorite) {
         button.classList.add('favorited')
         button.title = 'Remove from favorites'
+        // Change to filled heart
+        const heartIcon = button.querySelector('.heart-icon')
+        if (heartIcon) {
+          heartIcon.textContent = '♥'
+        }
       } else {
         button.classList.remove('favorited')
         button.title = 'Add to favorites'
+        // Change to outline heart
+        const heartIcon = button.querySelector('.heart-icon')
+        if (heartIcon) {
+          heartIcon.textContent = '♡'
+        }
       }
       
       // Show flash message
@@ -80,9 +100,9 @@ async function removeFavorite(invId, button) {
       favoriteItem.remove()
       
       // Check if favorites list is empty
-      const favoritesList = document.querySelector('#favorites-display ul')
+      const favoritesList = document.querySelector('#favorites-list')
       if (favoritesList && favoritesList.children.length === 0) {
-        favoritesList.innerHTML = '<p class="no-favorites">You haven\'t added any vehicles to your favorites yet. <a href="/inv/browse">Browse vehicles</a> to find vehicles you love!</p>'
+        document.querySelector('#favorites-display').innerHTML = '<p class="no-favorites">You haven\'t added any vehicles to your favorites yet. <a href="/inv/browse">Browse vehicles</a> to find vehicles you love!</p>'
       }
       
       showFlashMessage(result.message, 'notice')
@@ -97,7 +117,7 @@ async function removeFavorite(invId, button) {
 }
 
 async function loadFavoriteStates() {
-  const hearts = document.querySelectorAll('.favorite-heart')
+  const hearts = document.querySelectorAll('.favorite-heart, .favorite-btn-small')
   
   for (const heart of hearts) {
     const invId = heart.dataset.invId
@@ -109,6 +129,11 @@ async function loadFavoriteStates() {
       if (result.isFavorite) {
         heart.classList.add('favorited')
         heart.title = 'Remove from favorites'
+        // Change to filled heart
+        const heartIcon = heart.querySelector('.heart-icon')
+        if (heartIcon) {
+          heartIcon.textContent = '♥'
+        }
       }
     } catch (error) {
       console.error('Error checking favorite status:', error)

@@ -46,7 +46,7 @@ Util.buildClassificationGrid = async function(data){
       grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
       grid += '</h2>'
       grid += '<span>$' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
-      grid += '<button type="button" class="favorite-btn-small" data-inv-id="' + vehicle.inv_id + '">❤️</button>'
+      grid += '<button type="button" class="favorite-btn-small" data-inv-id="' + vehicle.inv_id + '"><span class="heart-icon">♡</span></button>'
       grid += '</div>'
       grid += '</li>'
     })
@@ -78,7 +78,6 @@ Util.buildBrowseGrid = async function(data){
       grid += '</h2>'
       grid += '<p class="classification-tag">' + vehicle.classification_name + '</p>'
       grid += '<span>$' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
-      grid += '<button type="button" class="favorite-btn-small" data-inv-id="' + vehicle.inv_id + '">❤️</button>'
       grid += '</div>'
       grid += '</li>'
     })
@@ -138,15 +137,18 @@ Util.buildVehicleDetail = function(vehicle) {
       <div class="vehicle-info">
         <h2>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h2>
         <p class="price">$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</p>
-        <p class="description">${vehicle.inv_description}</p>
+        <div class="description-with-favorite">
+          <p class="description">${vehicle.inv_description}</p>
+          <div class="favorite-section">
+            <span class="favorite-label">Add to Favorite:</span>
+            <button type="button" class="favorite-heart" data-inv-id="${vehicle.inv_id}" title="Add to favorites">
+              <span class="heart-icon">♡</span>
+            </button>
+          </div>
+        </div>
         <div class="vehicle-specs">
           <p><strong>Mileage:</strong> ${new Intl.NumberFormat('en-US').format(vehicle.inv_miles)} miles</p>
           <p><strong>Color:</strong> ${vehicle.inv_color}</p>
-        </div>
-        <div class="favorite-action">
-          <button type="button" id="favoriteBtn" class="favorite-btn" data-inv-id="${vehicle.inv_id}">
-            <span id="favoriteText">❤️ Add to Favorites</span>
-          </button>
         </div>
       </div>
     </div>
@@ -235,7 +237,11 @@ Util.checkAccountType = (req, res, next) => {
 * Build favorites grid HTML
 * ************************************ */
 Util.buildFavoritesGrid = async function(favorites) {
-  let grid = '<ul id="favorites-display">'
+  if (!favorites || favorites.length === 0) {
+    return '<p class="no-favorites">You haven\'t added any vehicles to your favorites yet. <a href="/inv/browse">Browse vehicles</a> to find vehicles you love!</p>'
+  }
+  
+  let grid = '<ul id="favorites-list">'
   
   favorites.forEach(vehicle => {
     grid += '<li class="favorite-item">'
@@ -283,7 +289,7 @@ Util.buildClassificationGrid = async function(data, account_id = null){
       // Add favorite heart if user is logged in
       if (account_id) {
         grid += `<button class="favorite-heart" data-inv-id="${vehicle.inv_id}" title="Add to favorites">
-                   <i class="fas fa-heart"></i>
+                   <span class="heart-icon">♡</span>
                  </button>`
       }
       

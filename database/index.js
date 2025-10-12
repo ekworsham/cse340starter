@@ -1,5 +1,6 @@
 const { Pool } = require("pg")
 require("dotenv").config()
+
 /* ***************
  * Connection Pool
  * SSL Object needed for local testing of app
@@ -8,17 +9,7 @@ require("dotenv").config()
  * *************** */
 let pool
 
-// Check if DATABASE_URL is provided
-if (!process.env.DATABASE_URL) {
-  console.log("No DATABASE_URL provided. Please set up your database connection in .env file")
-  // Create a mock pool for development without database
-  module.exports = {
-    async query(text, params) {
-      console.log("Mock database query:", { text, params })
-      return { rows: [] }
-    }
-  }
-} else if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV == "development") {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -42,6 +33,9 @@ if (!process.env.DATABASE_URL) {
 } else {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   })
   module.exports = pool
 }
