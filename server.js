@@ -89,7 +89,6 @@ app.use(async (req, res, next) => {
 app.use(require("./routes/static"))
 app.use("/account", require("./routes/accountRoute"))
 app.use("/inv", require("./routes/inventoryRoute"))
-app.use("/favorites", require("./routes/favoritesRoute")) // Add this line
 
 
 /* ***********************

@@ -71,14 +71,28 @@ async function toggleFavorite(invId, buttonElement) {
       body: JSON.stringify({ inv_id: invId })
     });
     
+    // Check if response is a redirect (login required)
+    if (response.redirected && response.url.includes('/account/login')) {
+      showMessage('Please log in to add favorites.', 'error');
+      setTimeout(() => {
+        window.location.href = '/account/login';
+      }, 2000);
+      return;
+    }
+    
     if (response.ok) {
       const result = await response.json();
       updateFavoriteButton(buttonElement, result.isFavorite);
       
       // Show success message
       showMessage(result.message || 'Favorite updated successfully!', 'success');
+    } else if (response.status === 401 || response.status === 403) {
+      showMessage('Please log in to add favorites.', 'error');
+      setTimeout(() => {
+        window.location.href = '/account/login';
+      }, 2000);
     } else {
-      const error = await response.json();
+      const error = await response.json().catch(() => ({ message: 'Failed to update favorite' }));
       showMessage(error.message || 'Failed to update favorite', 'error');
     }
   } catch (error) {
