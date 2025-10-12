@@ -212,6 +212,49 @@ body {
     transform: scale(1.05);
   }
 
+  .password-requirements {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .password-requirements small {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    display: block;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    text-align: center;
+  }
+
+  /* Specific styling for register form password requirements */
+  #registerForm .password-requirements {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    grid-column: 1;
+    background-color: yellow !important;
+    padding: 10px !important;
+    border: 3px solid red !important;
+    border-radius: 5px !important;
+  }
+
+  #registerForm .password-requirements small {
+    color: black !important;
+    background-color: yellow !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    display: block !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    border: none !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    margin: 0 !important;
+  }
+
 
 /* Register Form********************** */
 #registerButton {
@@ -264,12 +307,13 @@ body {
 
   #registerForm {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(auto, minmax(auto, 1fr));
     background-color: rgb(3, 96, 126);
     padding: 1rem 1rem 1rem 1rem;
     border: darkgray solid 3px;
     border-radius: .5rem;
-    box-shadow: 0 0 20px 8px  rgb(25, 173, 223)
+    box-shadow: 0 0 20px 8px  rgb(25, 173, 223);
+    gap: 0.5rem;
   }
 
    #submit {
